@@ -1,5 +1,18 @@
 apply plugin: 'groovy'
 
+repositories {
+    jcenter()
+}
+buildscript {
+    repositories {
+        jcenter()
+    }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.4'
+}
+
 task wrapper(type: Wrapper) {
     gradleVersion = '2.0'
 }
