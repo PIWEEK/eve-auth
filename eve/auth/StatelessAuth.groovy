@@ -3,8 +3,6 @@ package eve.auth
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import java.security.InvalidKeyException
-import javax.crypto.Cipher
-import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
@@ -13,19 +11,19 @@ import groovy.json.JsonSlurper
  * Sample:
  * def data = [id:'1', user:'palba', expirationDate:'01/01/2015']
  *
- * def c = new Cypher("secret")
- * def token = c.generateToken(data)
+ * def s = new StatelessAuth("secret")
+ * def token = s.generateToken(data)
  *
  * println "token $token"
  *
- * println c.validateToken(token)
+ * println s.validateToken(token)
 */
 
 
-class Cypher {
+class StatelessAuth {
     String secret
 
-    public Cypher1(String secret){
+    public StatelessAuth(String secret){
         this.secret = secret
     }
 
