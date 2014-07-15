@@ -59,7 +59,7 @@ class StatelessAuth {
             }
         } catch (Exception e){
             //do nothing
-            e.printStackTrace()
+            //e.printStackTrace()
         }
         return [:]
     }
