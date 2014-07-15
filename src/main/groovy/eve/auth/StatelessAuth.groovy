@@ -17,38 +17,35 @@ import groovy.json.JsonSlurper
  * println "token $token"
  *
  * println s.validateToken(token)
-*/
-
+ */
 
 class StatelessAuth {
     String secret
 
-    public StatelessAuth(String secret){
+    public StatelessAuth(String secret) {
         this.secret = secret
     }
 
     String hmac_sha256(String secretKey, String data) {
-     try {
-        Mac mac = Mac.getInstance("HmacSHA256")
-        SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256")
-        mac.init(secretKeySpec)
-        byte[] digest = mac.doFinal(data.getBytes())
-        return digest.encodeBase64().toString()
-       } catch (InvalidKeyException e) {
-        throw new RuntimeException("Invalid key exception while converting to HMac SHA256")
-      }
+        try {
+            Mac mac = Mac.getInstance("HmacSHA256")
+            SecretKeySpec secretKeySpec = new SecretKeySpec(secretKey.getBytes(), "HmacSHA256")
+            mac.init(secretKeySpec)
+            byte[] digest = mac.doFinal(data.getBytes())
+            return digest.encodeBase64().toString()
+        } catch (InvalidKeyException e) {
+            throw new RuntimeException("Invalid key exception while converting to HMac SHA256")
+        }
     }
 
-    String generateToken(Map data){
+    String generateToken(Map data) {
         def jsonString = new JsonBuilder(data).toString()
         def hash = hmac_sha256(secret, jsonString)
         def extendedData = jsonString+"_"+hash
         return (extendedData as String).getBytes().encodeBase64()
     }
 
-
-
-    Map validateToken(String token){
+    Map validateToken(String token) {
         try {
             String data = new String((token.decodeBase64()))
             def split = data.split("_")
@@ -65,6 +62,5 @@ class StatelessAuth {
             e.printStackTrace()
         }
         return [:]
-
     }
 }
